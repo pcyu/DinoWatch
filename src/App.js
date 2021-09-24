@@ -2,7 +2,7 @@ import './App.css';
 import { useState, useEffect } from 'react';
 
 function App() {
-  const [ dinoQuote , setDinoQuote ] = useState('');
+  const [ dinoQuote , setDinoQuote ] = useState('f');
 
   const DINO_QUERY = `
   {
@@ -38,10 +38,11 @@ function App() {
         body: JSON.stringify({ query: DINO_QUERY})
       });
       const jsonBody = await res.json();
-      console.log(jsonBody.data.ethereum.dexTrades[0].baseCurrency.symbol);
+      console.log(jsonBody.data.ethereum.dexTrades[0].baseCurrency.symbol)
+      setDinoQuote(jsonBody.data.ethereum.dexTrades[0].quotePrice)
     }
-    dinoQuery((quotePrice) => setDinoQuote(quotePrice));
-  },[]);
+    dinoQuery();
+  },);
 
 
   return (
