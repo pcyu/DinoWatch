@@ -9,7 +9,10 @@ function App() {
     async function dinoQuery() {
       const res = await fetch('https://graphql.bitquery.io', {
         method: "POST",
-        headers: { "Content-Type": "application/json"},
+        headers: { 
+          "Content-Type": "application/json",
+          "X-API-KEY": "BQYNuy1t9n3tG1RZf1gOpJTGI7RjRGTp"
+        },
         body: JSON.stringify({ query: DINO_QUERY})
       });
       const jsonBody = await res.json();
