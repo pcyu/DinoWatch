@@ -1,23 +1,22 @@
 import './App.css';
-import BIG_DINO_QUERY  from '../src/query';
+import DINO_QUERY from '../src/query';
 import { useState, useEffect } from 'react';
 
 function App() {
-  const [ dinoQuote , setDinoQuote ] = useState('f');
+  const [ dinoQuote , setDinoQuote ] = useState('loading');
 
   useEffect(()=> {
     async function dinoQuery() {
       const res = await fetch('https://graphql.bitquery.io', {
         method: "POST",
         headers: { "Content-Type": "application/json"},
-        body: JSON.stringify({ query: BIG_DINO_QUERY})
+        body: JSON.stringify({ query: DINO_QUERY})
       });
       const jsonBody = await res.json();
-      console.log(jsonBody.data.ethereum.dexTrades[0])
       setDinoQuote(jsonBody.data.ethereum.dexTrades[0].quotePrice)
     }
     dinoQuery();
-  },);
+  },[]);
 
 
   return (

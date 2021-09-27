@@ -24,4 +24,4 @@ const DINO_QUERY = `
   }
   `
 
-  export default DINO_QUERY;
+  export default DINO_QUERY
