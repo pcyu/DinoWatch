@@ -1,44 +1,19 @@
 import './App.css';
+import BIG_DINO_QUERY  from '../src/query';
 import { useState, useEffect } from 'react';
 
 function App() {
   const [ dinoQuote , setDinoQuote ] = useState('f');
-
-  const DINO_QUERY = `
-  {
-    ethereum(network: matic) {
-      dexTrades(
-        baseCurrency: {is: "0xAa9654BECca45B5BDFA5ac646c939C62b527D394"}
-        quoteCurrency: {is: "0x2791bca1f2de4661ed88a30c99a7a9449aa84174"}
-        options: {desc: ["block.height"], limit: 1}
-      ) {
-        block {
-          height
-          timestamp {
-            time(format: "%Y-%m-%d %H:%M:%S")
-          }
-        }
-        baseCurrency {
-          symbol
-        }
-        quoteCurrency {
-          symbol
-        }
-        quotePrice
-      }
-    }
-  }
-  `
 
   useEffect(()=> {
     async function dinoQuery() {
       const res = await fetch('https://graphql.bitquery.io', {
         method: "POST",
         headers: { "Content-Type": "application/json"},
-        body: JSON.stringify({ query: DINO_QUERY})
+        body: JSON.stringify({ query: BIG_DINO_QUERY})
       });
       const jsonBody = await res.json();
-      console.log(jsonBody.data.ethereum.dexTrades[0].baseCurrency.symbol)
+      console.log(jsonBody.data.ethereum.dexTrades[0])
       setDinoQuote(jsonBody.data.ethereum.dexTrades[0].quotePrice)
     }
     dinoQuery();
