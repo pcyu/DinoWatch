@@ -8,9 +8,15 @@ function App() {
     price: 'loading',
     symbol: 'loading'
   });
-  
-  const [ quoteDG , setDGQuote ] = useState('loading');
-  const [ quoteWork , setWorkQuote ] = useState('loading');
+
+  const [ quoteDG , setDGQuote ] = useState({
+    price: 'loading',
+    symbol: 'loading'
+  });
+  const [ quoteWork , setWorkQuote ] = useState({
+    price: 'loading',
+    symbol: 'loading'
+  });
 
   useEffect(()=> {
     async function queryDino() {
@@ -23,7 +29,7 @@ function App() {
         body: JSON.stringify({ query: DINO_QUERY})
       });
       const jsonBody = await res.json();
-      setDinoQuote({price: jsonBody.data.ethereum.dexTrades[0].quotePrice, symbol: jsonBody.data.ethereum.dexTrades[0].quoteCurrency.symbol})
+      setDinoQuote({price: jsonBody.data.ethereum.dexTrades[0].quotePrice, symbol: jsonBody.data.ethereum.dexTrades[0].baseCurrency.symbol})
     }
     queryDino();
   },[quoteDino]);
@@ -39,7 +45,7 @@ function App() {
         body: JSON.stringify({ query: DG_QUERY })
       });
       const jsonBody = await res.json();
-      setDGQuote(jsonBody.data.ethereum.dexTrades[0].quotePrice)
+      setDGQuote({price: jsonBody.data.ethereum.dexTrades[0].quotePrice, symbol: jsonBody.data.ethereum.dexTrades[0].baseCurrency.symbol})
     }
     queryDG();
   },[quoteDG]);
@@ -55,7 +61,7 @@ function App() {
         body: JSON.stringify({ query: WORK_QUERY})
       });
       const jsonBody = await res.json();
-      setWorkQuote(jsonBody.data.ethereum.dexTrades[0].quotePrice)
+      setWorkQuote({price: jsonBody.data.ethereum.dexTrades[0].quotePrice, symbol: jsonBody.data.ethereum.dexTrades[0].baseCurrency.symbol})
     }
     queryWork();
   },[quoteWork]);
@@ -64,8 +70,8 @@ function App() {
   return (
     <div className="App">
       <h1>The {quoteDino.symbol} quote price is: {quoteDino.price}</h1>
-      <h1>The quote price is: {quoteDG}</h1>
-      <h1>The quote price is: {quoteWork}</h1>
+      <h1>The {quoteDG.symbol} price is: {quoteDG.price}</h1>
+      <h1>The {quoteWork.symbol} price is: {quoteWork.price}</h1>
     </div>
   );
 }
