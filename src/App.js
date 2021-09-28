@@ -4,7 +4,11 @@ import { useState, useEffect } from 'react';
 
 function App() {
 
-  const [ quoteDino , setDinoQuote ] = useState('loading');
+  const [ quoteDino , setDinoQuote ] = useState({
+    price: 'loading',
+    symbol: 'loading'
+  });
+  
   const [ quoteDG , setDGQuote ] = useState('loading');
   const [ quoteWork , setWorkQuote ] = useState('loading');
 
@@ -19,8 +23,7 @@ function App() {
         body: JSON.stringify({ query: DINO_QUERY})
       });
       const jsonBody = await res.json();
-      console.log(jsonBody);
-      setDinoQuote(jsonBody.data.ethereum.dexTrades[0].quotePrice)
+      setDinoQuote({price: jsonBody.data.ethereum.dexTrades[0].quotePrice, symbol: jsonBody.data.ethereum.dexTrades[0].quoteCurrency.symbol})
     }
     queryDino();
   },[quoteDino]);
@@ -60,7 +63,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>The quote price is: {quoteDino}</h1>
+      <h1>The {quoteDino.symbol} quote price is: {quoteDino.price}</h1>
       <h1>The quote price is: {quoteDG}</h1>
       <h1>The quote price is: {quoteWork}</h1>
     </div>
