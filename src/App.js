@@ -3,7 +3,7 @@ import { DINO_QUERY, DG_QUERY, WORK_QUERY } from '../src/query';
 import { useState, useEffect } from 'react';
 
 function App() {
-  
+
   const [ quoteDino , setDinoQuote ] = useState('loading');
   const [ quoteDG , setDGQuote ] = useState('loading');
   const [ quoteWork , setWorkQuote ] = useState('loading');
@@ -19,6 +19,7 @@ function App() {
         body: JSON.stringify({ query: DINO_QUERY})
       });
       const jsonBody = await res.json();
+      console.log(jsonBody);
       setDinoQuote(jsonBody.data.ethereum.dexTrades[0].quotePrice)
     }
     queryDino();
