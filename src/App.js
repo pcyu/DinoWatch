@@ -31,10 +31,6 @@ function App() {
       const jsonBody = await res.json();
       setDinoQuote({price: jsonBody.data.ethereum.dexTrades[0].quotePrice, symbol: jsonBody.data.ethereum.dexTrades[0].baseCurrency.symbol})
     }
-    queryDino();
-  },[quoteDino]);
-
-  useEffect(()=> {
     async function queryDG() {
       const res = await fetch('https://graphql.bitquery.io', {
         method: "POST",
@@ -47,10 +43,6 @@ function App() {
       const jsonBody = await res.json();
       setDGQuote({price: jsonBody.data.ethereum.dexTrades[0].quotePrice, symbol: jsonBody.data.ethereum.dexTrades[0].baseCurrency.symbol})
     }
-    queryDG();
-  },[quoteDG]);
-
-  useEffect(()=> {
     async function queryWork() {
       const res = await fetch('https://graphql.bitquery.io', {
         method: "POST",
@@ -63,8 +55,10 @@ function App() {
       const jsonBody = await res.json();
       setWorkQuote({price: jsonBody.data.ethereum.dexTrades[0].quotePrice, symbol: jsonBody.data.ethereum.dexTrades[0].baseCurrency.symbol})
     }
+    queryDino();
+    queryDG();
     queryWork();
-  },[quoteWork]);
+  },[]);
 
 
   return (
