@@ -8,7 +8,6 @@ function App() {
     price: 'loading',
     symbol: 'loading'
   });
-
   const [ quoteDG , setDGQuote ] = useState({
     price: 'loading',
     symbol: 'loading'
