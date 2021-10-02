@@ -4,7 +4,9 @@ import { useState, useEffect } from 'react';
 
 function App() {
 
+  const prevDino = JSON.parse(localStorage.getItem('price'))
   const [ quoteDino , setDinoQuote ] = useState({
+    prevPrice: prevDino || 'loading',
     price: 'loading',
     symbol: 'loading'
   });
@@ -32,7 +34,8 @@ function App() {
         body: JSON.stringify({ query: DINO_QUERY})
       });
       const jsonBody = await res.json();
-      setDinoQuote({price: jsonBody.data.ethereum.dexTrades[0].quotePrice, symbol: jsonBody.data.ethereum.dexTrades[0].baseCurrency.symbol})
+      setDinoQuote({prevPrice: prevDino, price: jsonBody.data.ethereum.dexTrades[0].quotePrice, symbol: jsonBody.data.ethereum.dexTrades[0].baseCurrency.symbol})
+      localStorage.setItem('price', jsonBody.data.ethereum.dexTrades[0].quotePrice)
     }
     async function queryDinox() {
       const res = await fetch('https://graphql.bitquery.io', {
@@ -79,6 +82,7 @@ function App() {
   return (
     <div className="App">
       <h1>The {quoteDino.symbol} price is: {quoteDino.price}</h1>
+      <h2>The previous {quoteDino.symbol} price last compounded was: {quoteDino.prevPrice}</h2>
       <h1>The {quoteDinox.symbol} price is: {quoteDinox.price}</h1>
       <h1>The {quoteDG.symbol} price is: {quoteDG.price}</h1>
       <h1>The {quoteWork.symbol} price is: {quoteWork.price}</h1>
