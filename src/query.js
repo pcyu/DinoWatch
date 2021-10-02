@@ -28,6 +28,36 @@ export const DINO_QUERY = `
     }
   }
 `
+export const DINOX_QUERY = `
+  {
+    ethereum(network: matic) {
+      dexTrades(
+        baseCurrency: {is: "0xcaf5191fc480f43e4df80106c7695eca56e48b18"}
+        quoteCurrency: {is: "0x2791bca1f2de4661ed88a30c99a7a9449aa84174"}
+        options: {desc: ["block.height", "transaction.index"], limit: 1}
+      ) {
+        block {
+          height
+          timestamp {
+            time(format: "%Y-%m-%d %H:%M:%S")
+          }
+        }
+        transaction {
+          index
+        }
+        baseCurrency {
+          symbol
+          name
+        }
+        quoteCurrency {
+          symbol
+          name
+        }
+        quotePrice
+      }
+    }
+  }
+`
 export const DG_QUERY = `
   {
     ethereum(network: matic) {
